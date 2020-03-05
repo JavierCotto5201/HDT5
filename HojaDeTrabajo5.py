@@ -9,17 +9,23 @@ import statistics
 import math
 
 RANDOM_SEED=20
-Procesos=1
+Procesos=25
 Memoria=100
-
+#tiempos=[]
 def function(env, Tproceso, codigo, RAM, memUtilizar, Instrucciones, InsPorMin):
     
     #Tiempo de llegada
     yield env.timeout(Tproceso)
     print('Tiempo: %f - %s se solicita %d de RAM' % (env.now, codigo, memUtilizar))
+    #
+    #
+    #tiempos.append(math.floor(Tproceso)) #Agregar tiempos a la lista
+    #
+    #
+    
     #Empezar tiempo
     Tllegada = env.now
-    
+
     #Solicitud de espacio a la RAM
     yield RAM.get(memUtilizar) #Solicitar memoria a la RAM
     print('Tiempo: %f - %s (Solicitud de RAM) %d de RAM,aceptada' % (env.now, codigo, memUtilizar))
@@ -70,6 +76,13 @@ for i in range(Procesos):
     memUtilizar= random.randint(1, 10)  #Memoria a solicitar
     Instrucciones= random.randint(1, 10) #Intrucciones que necesitaran 
     env.process(function(env, Tproceso,"Proceso %d" % i,RAM, memUtilizar,Instrucciones,InsPorMin))
-
+    #
+    #
+    #
+    #print(statistics.mean(tiempos))#Mostrar estadistica de los datos
+    #Este proceso de datos estadisticos me salia que un float no puede ser iterable
+    #
+    #
+    
 #Comienza el proceso de ejecucion
-env.run()             
+env.run()
